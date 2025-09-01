@@ -1,5 +1,6 @@
 import { HeroSection } from "@/components/HeroSection";
 import { FileConverter } from "@/components/FileConverter";
+import { TutorialSection } from "@/components/TutorialSection";
 import { TipsSection } from "@/components/TipsSection";
 import { ContactSection } from "@/components/ContactSection";
 import { FileImage, FileText } from "lucide-react";
@@ -86,6 +87,7 @@ const Index = () => {
         </div>
       </section>
 
+      <TutorialSection />
       <TipsSection />
       <ContactSection />
 

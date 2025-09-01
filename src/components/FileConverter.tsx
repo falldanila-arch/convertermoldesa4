@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, Download, FileImage, FileText } from "lucide-react";
+import { Upload, Download, FileImage, FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { PDFConverter } from "@/lib/pdfConverter";
 
 interface FileConverterProps {
   title: string;
@@ -23,13 +24,24 @@ export const FileConverter = ({
 }: FileConverterProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isConverting, setIsConverting] = useState(false);
-  const [convertedFile, setConvertedFile] = useState<string | null>(null);
+  const [convertedFile, setConvertedFile] = useState<Blob | null>(null);
+  const [convertedFileName, setConvertedFileName] = useState<string>("");
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
+      // Validar tipo de arquivo
+      const expectedExtension = fromFormat.toLowerCase();
+      const fileName = selectedFile.name.toLowerCase();
+      
+      if (!fileName.endsWith(`.${expectedExtension}`) && !fileName.endsWith('.pdf')) {
+        toast.error(`Por favor, selecione um arquivo ${fromFormat} válido!`);
+        return;
+      }
+      
       setFile(selectedFile);
       setConvertedFile(null);
+      setConvertedFileName("");
       toast.success(`Arquivo ${selectedFile.name} carregado com sucesso!`);
     }
   };
@@ -42,18 +54,35 @@ export const FileConverter = ({
 
     setIsConverting(true);
     
-    // Simular conversão (substituir por lógica real)
-    setTimeout(() => {
-      setConvertedFile(`converted_${file.name.split('.')[0]}.${toFormat.toLowerCase()}`);
+    try {
+      let convertedBlob: Blob;
+      const baseFileName = file.name.split('.')[0];
+      
+      if (fromFormat === "PDF" && toFormat === "XPS") {
+        convertedBlob = await PDFConverter.convertPdfToXpsFormat(file);
+        setConvertedFileName(`${baseFileName}_poster.pdf`);
+        toast.success("PDF convertido para formato poster com sucesso!");
+      } else if (fromFormat === "XPS" && toFormat === "PDF") {
+        convertedBlob = await PDFConverter.convertXpsToPdf(file);
+        setConvertedFileName(`${baseFileName}_final.pdf`);
+        toast.success("Arquivo convertido para PDF final com sucesso!");
+      } else {
+        throw new Error("Conversão não suportada");
+      }
+      
+      setConvertedFile(convertedBlob);
+    } catch (error) {
+      console.error("Erro na conversão:", error);
+      toast.error("Erro ao converter arquivo. Verifique se o arquivo é válido.");
+    } finally {
       setIsConverting(false);
-      toast.success("Conversão concluída com sucesso!");
-    }, 2000);
+    }
   };
 
   const handleDownload = () => {
-    if (convertedFile) {
-      toast.success("Download iniciado!");
-      // Aqui seria a lógica real de download
+    if (convertedFile && convertedFileName) {
+      PDFConverter.downloadFile(convertedFile, convertedFileName);
+      toast.success("Download iniciado! Verifique sua pasta de downloads.");
     }
   };
 
@@ -106,7 +135,14 @@ export const FileConverter = ({
           className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
           size="lg"
         >
-          {isConverting ? "Convertendo..." : `Converter para ${toFormat}`}
+          {isConverting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Convertendo...
+            </>
+          ) : (
+            `Converter para ${toFormat}`
+          )}
         </Button>
 
         {convertedFile && (
@@ -117,7 +153,7 @@ export const FileConverter = ({
             size="lg"
           >
             <Download className="mr-2 h-4 w-4" />
-            Baixar {convertedFile}
+            Baixar {convertedFileName}
           </Button>
         )}
       </CardContent>
