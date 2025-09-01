@@ -25,23 +25,46 @@ export class PDFConverter {
             const newPage = posterDoc.addPage(PageSizes.A4);
             const [embeddedPage] = await posterDoc.embedPdf(pdfDoc, [pages.indexOf(page)]);
             
-            // Calcular posição e escala para o quadrante
-            const x = -col * quadrantWidth * 2;
-            const y = -(1-row) * quadrantHeight * 2;
+            // Obter dimensões da página A4
+            const a4Width = newPage.getWidth();
+            const a4Height = newPage.getHeight();
+            
+            // Calcular escala para que o quadrante ocupe toda a página A4
+            const scaleX = a4Width / quadrantWidth;
+            const scaleY = a4Height / quadrantHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            // Calcular posição para centralizar o quadrante na página A4
+            const scaledWidth = width * scale;
+            const scaledHeight = height * scale;
+            const offsetX = (a4Width - scaledWidth) / 2;
+            const offsetY = (a4Height - scaledHeight) / 2;
+            
+            // Posição do recorte (qual parte da página original mostrar)
+            const cropX = -col * quadrantWidth * scale;
+            const cropY = -(1 - row) * quadrantHeight * scale;
             
             newPage.drawPage(embeddedPage, {
-              x: x,
-              y: y,
-              width: width * 2,
-              height: height * 2,
+              x: offsetX + cropX,
+              y: offsetY + cropY,
+              width: scaledWidth,
+              height: scaledHeight,
             });
             
-            // Adicionar marcações de corte
+            // Adicionar marcações de corte e informações
             newPage.drawText(`Quadrante ${row + 1}-${col + 1}`, {
               x: 20,
               y: newPage.getHeight() - 30,
               size: 12,
               color: rgb(0, 0, 0),
+            });
+            
+            // Adicionar linhas de referência nas bordas
+            newPage.drawText(`Página ${pages.indexOf(page) + 1} - Setor ${row + 1}${col + 1}`, {
+              x: 20,
+              y: 20,
+              size: 10,
+              color: rgb(0.5, 0.5, 0.5),
             });
           }
         }
