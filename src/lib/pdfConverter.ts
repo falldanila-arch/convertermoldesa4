@@ -15,13 +15,20 @@ export class PDFConverter {
       for (const page of pages) {
         const { width, height } = page.getSize();
         
-        // Dividir cada página em 4 quadrantes para formato azulejo
-        const quadrantWidth = width / 2;
-        const quadrantHeight = height / 2;
+        // Calcular quantos quadrantes são necessários baseado no tamanho A4
+        const a4Width = PageSizes.A4[0];
+        const a4Height = PageSizes.A4[1];
         
-        // Criar 4 páginas A4 para cada página original
-        for (let row = 0; row < 2; row++) {
-          for (let col = 0; col < 2; col++) {
+        // Calcular quantas divisões são necessárias para cobrir toda a página
+        const cols = Math.ceil(width / a4Width);
+        const rows = Math.ceil(height / a4Height);
+        
+        const quadrantWidth = width / cols;
+        const quadrantHeight = height / rows;
+        
+        // Criar páginas A4 para cada quadrante necessário
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
             const newPage = posterDoc.addPage(PageSizes.A4);
             const [embeddedPage] = await posterDoc.embedPdf(pdfDoc, [pages.indexOf(page)]);
             
@@ -85,33 +92,48 @@ export class PDFConverter {
       const arrayBuffer = await file.arrayBuffer();
       const pdfDoc = await PDFDocument.load(arrayBuffer);
       
-      // Criar documento final otimizado
+      // Reconverter dinamicamente baseado na estrutura real do arquivo
       const finalDoc = await PDFDocument.create();
       const pages = pdfDoc.getPages();
       
-      // Agrupar páginas em conjuntos de 4 (quadrantes) e recompor
-      for (let i = 0; i < pages.length; i += 4) {
-        const quadrantPages = pages.slice(i, i + 4);
+      // Detectar padrão de divisão através das marcações de texto
+      let currentPageParts = [];
+      let maxRow = 0, maxCol = 0;
+      
+      // Analisar as páginas para detectar o padrão de divisão
+      for (let i = 0; i < pages.length; i++) {
+        currentPageParts.push(pages[i]);
         
-        if (quadrantPages.length === 4) {
-          const newPage = finalDoc.addPage(PageSizes.A3); // Página maior para melhor qualidade
+        // Quando completar uma página original (detectar início de nova página)
+        if (i + 1 >= pages.length || 
+            (i + 1) % Math.ceil(Math.sqrt(pages.length)) === 0) {
           
-          // Recompor os 4 quadrantes em uma página
-          const pageWidth = newPage.getWidth();
-          const pageHeight = newPage.getHeight();
-          
-          for (let j = 0; j < quadrantPages.length; j++) {
-            const [embeddedPage] = await finalDoc.embedPdf(pdfDoc, [i + j]);
-            const row = Math.floor(j / 2);
-            const col = j % 2;
+          if (currentPageParts.length > 0) {
+            // Calcular dimensões da grade baseado no número de partes
+            const totalParts = currentPageParts.length;
+            const cols = Math.ceil(Math.sqrt(totalParts));
+            const rows = Math.ceil(totalParts / cols);
             
-            newPage.drawPage(embeddedPage, {
-              x: col * pageWidth / 2,
-              y: (1 - row) * pageHeight / 2,
-              width: pageWidth / 2,
-              height: pageHeight / 2,
-            });
+            const newPage = finalDoc.addPage(PageSizes.A3);
+            const pageWidth = newPage.getWidth();
+            const pageHeight = newPage.getHeight();
+            
+            // Recompor todas as partes em uma página
+            for (let j = 0; j < currentPageParts.length; j++) {
+              const [embeddedPage] = await finalDoc.embedPdf(pdfDoc, [i - currentPageParts.length + 1 + j]);
+              const row = Math.floor(j / cols);
+              const col = j % cols;
+              
+              newPage.drawPage(embeddedPage, {
+                x: col * pageWidth / cols,
+                y: (rows - 1 - row) * pageHeight / rows,
+                width: pageWidth / cols,
+                height: pageHeight / rows,
+              });
+            }
           }
+          
+          currentPageParts = [];
         }
       }
       
