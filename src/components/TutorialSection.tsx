@@ -1,6 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Upload, Download, RefreshCw, Printer, FileImage, FileText } from "lucide-react";
+import { Upload, FileText, Printer } from "lucide-react";
 
 export const TutorialSection = () => {
   return (
@@ -11,179 +11,132 @@ export const TutorialSection = () => {
             Como Usar o Conversor
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Siga este tutorial passo-a-passo para converter seus moldes PDF para impressão em azulejo (formato poster)
+            Siga este processo simples para converter seus PDFs em formato poster dividido para impressão
           </p>
         </div>
 
-        {/* Processo PDF para XPS */}
-        <div className="max-w-6xl mx-auto mb-16">
-          <Card className="shadow-elegant border-2 border-primary/20">
-            <CardHeader className="bg-gradient-primary text-white">
-              <CardTitle className="flex items-center gap-3 text-2xl">
-                <FileImage className="h-8 w-8" />
-                Parte 1: PDF → XPS (Formato Poster)
-              </CardTitle>
-              <CardDescription className="text-white/90 text-lg">
-                Transforme seu molde PDF em formato azulejo para impressão grande
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
-                    <Upload className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-primary">Passo 1</h4>
-                    <p className="text-sm">Clique em "Selecionar arquivo PDF" no primeiro conversor</p>
-                  </div>
-                </div>
-                
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
-                    <FileImage className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-primary">Passo 2</h4>
-                    <p className="text-sm">Escolha seu arquivo PDF do molde</p>
-                  </div>
-                </div>
-                
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
-                    <RefreshCw className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-primary">Passo 3</h4>
-                    <p className="text-sm">Clique em "Converter para XPS"</p>
-                  </div>
-                </div>
-                
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
-                    <Download className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-primary">Passo 4</h4>
-                    <p className="text-sm">Baixe o arquivo convertido</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Separator */}
-        <div className="flex items-center justify-center mb-16">
-          <Separator className="flex-1 max-w-xs" />
-          <span className="mx-6 text-muted-foreground font-medium">AGORA</span>
-          <Separator className="flex-1 max-w-xs" />
-        </div>
-
-        {/* Processo XPS para PDF */}
-        <div className="max-w-6xl mx-auto mb-16">
-          <Card className="shadow-elegant border-2 border-accent/20">
-            <CardHeader className="bg-gradient-secondary text-white">
-              <CardTitle className="flex items-center gap-3 text-2xl">
-                <FileText className="h-8 w-8" />
-                Parte 2: XPS → PDF (Finalização)
-              </CardTitle>
-              <CardDescription className="text-white/90 text-lg">
-                Converta de volta para PDF otimizado para sua impressora
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
-                    <Upload className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-accent">Passo 1</h4>
-                    <p className="text-sm">Use o arquivo XPS baixado na etapa anterior</p>
-                  </div>
-                </div>
-                
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
-                    <FileText className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-accent">Passo 2</h4>
-                    <p className="text-sm">Faça upload no segundo conversor (XPS → PDF)</p>
-                  </div>
-                </div>
-                
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
-                    <RefreshCw className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-accent">Passo 3</h4>
-                    <p className="text-sm">Clique em "Converter para PDF"</p>
-                  </div>
-                </div>
-                
-                <div className="text-center space-y-4">
-                  <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
-                    <Printer className="h-8 w-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-accent">Passo 4</h4>
-                    <p className="text-sm">Baixe e imprima seu molde!</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Dicas importantes */}
         <div className="max-w-4xl mx-auto">
-          <Card className="bg-gradient-to-r from-primary/5 to-accent/5 border-2 border-primary/20">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center text-primary">
-                💡 Dicas Importantes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">!</span>
-                    <div>
-                      <p className="font-semibold text-primary">Formato Azulejo</p>
-                      <p className="text-sm text-muted-foreground">O XPS divide cada página em 4 partes para impressão em folhas A4</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">✓</span>
-                    <div>
-                      <p className="font-semibold text-primary">Qualidade</p>
-                      <p className="text-sm text-muted-foreground">Mantém resolução alta para impressão profissional</p>
-                    </div>
-                  </div>
+          {/* Processo Único - PDF para Poster */}
+          <Card className="p-8 bg-card/50 backdrop-blur-sm border-primary/20">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <FileText className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-foreground mb-2">
+                PDF → PDF Dividido em Poster
+              </h3>
+              <p className="text-muted-foreground">
+                Converta seu PDF em formato poster dividido em páginas A4
+              </p>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary font-semibold">1</span>
                 </div>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">📏</span>
-                    <div>
-                      <p className="font-semibold text-primary">Medidas Exatas</p>
-                      <p className="text-sm text-muted-foreground">Cole as partes com precisão para manter dimensões</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">🖨️</span>
-                    <div>
-                      <p className="font-semibold text-primary">Impressão</p>
-                      <p className="text-sm text-muted-foreground">Configure sua impressora para 100% sem ajuste de escala</p>
-                    </div>
-                  </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">Selecione seu arquivo PDF</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Clique no conversor e selecione o arquivo PDF que deseja dividir em formato poster
+                  </p>
                 </div>
               </div>
-            </CardContent>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary font-semibold">2</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">Clique em "Converter"</h4>
+                  <p className="text-sm text-muted-foreground">
+                    O sistema irá automaticamente dividir cada página do PDF em quadrantes A4 com marcas de corte
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary font-semibold">3</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">Baixe o PDF dividido</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Faça o download do arquivo PDF com todas as páginas divididas e prontas para impressão
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-primary font-semibold">4</span>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-foreground mb-1">Imprima e monte</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Imprima todas as páginas em A4 e cole seguindo as marcações para formar o poster completo
+                  </p>
+                </div>
+              </div>
+            </div>
           </Card>
         </div>
+
+        <Separator className="my-12" />
+
+        {/* Dicas Importantes */}
+        <Card className="p-8 bg-gradient-to-r from-accent/10 to-primary/10 border-accent/20">
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Printer className="w-8 h-8 text-accent" />
+            </div>
+            <h3 className="text-2xl font-bold text-foreground mb-2">
+              Dicas para Impressão em Formato Poster
+            </h3>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="flex items-start gap-3">
+              <Upload className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="font-semibold text-foreground mb-1">Configuração da Impressora</h4>
+                <p className="text-sm text-muted-foreground">
+                  Configure sua impressora para imprimir em tamanho real (100%) sem ajuste automático
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-3">
+              <Upload className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="font-semibold text-foreground mb-1">Marcações de Orientação</h4>
+                <p className="text-sm text-muted-foreground">
+                  Cada página tem informações sobre qual página original e posição na montagem
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-3">
+              <Upload className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="font-semibold text-foreground mb-1">Montagem Sequencial</h4>
+                <p className="text-sm text-muted-foreground">
+                  Monte seguindo as marcações "Linha X, Coluna Y" para formar o poster completo
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-3">
+              <Upload className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
+              <div>
+                <h4 className="font-semibold text-foreground mb-1">Marcas de Corte</h4>
+                <p className="text-sm text-muted-foreground">
+                  Use as marcas de corte nas bordas para alinhamento perfeito na montagem
+                </p>
+              </div>
+            </div>
+          </div>
+        </Card>
       </div>
     </section>
   );

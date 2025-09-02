@@ -61,13 +61,9 @@ export const FileConverter = ({
       if (fromFormat === "PDF" && toFormat === "XPS") {
         convertedBlob = await PDFConverter.convertPdfToXpsFormat(file);
         setConvertedFileName(`${baseFileName}_poster.pdf`);
-        toast.success("PDF convertido para formato poster com sucesso!");
-      } else if (fromFormat === "XPS" && toFormat === "PDF") {
-        convertedBlob = await PDFConverter.convertXpsToPdf(file);
-        setConvertedFileName(`${baseFileName}_final.pdf`);
-        toast.success("Arquivo convertido para PDF final com sucesso!");
+        toast.success("PDF convertido para formato poster dividido com sucesso!");
       } else {
-        throw new Error("Conversão não suportada");
+        throw new Error("Formato de conversão não suportado");
       }
       
       setConvertedFile(convertedBlob);
