@@ -80,14 +80,14 @@ export class PDFConverter {
             const markSize = 10;
             // Marca superior esquerda
             newPage.drawLine({
-              start: { x: 0, y: pageA4Height - markSize },
-              end: { x: markSize, y: pageA4Height - markSize },
+              start: { x: 0, y: a4Height - markSize },
+              end: { x: markSize, y: a4Height - markSize },
               thickness: 0.5,
               color: rgb(0, 0, 0),
             });
             newPage.drawLine({
-              start: { x: markSize, y: pageA4Height },
-              end: { x: markSize, y: pageA4Height - markSize },
+              start: { x: markSize, y: a4Height },
+              end: { x: markSize, y: a4Height - markSize },
               thickness: 0.5,
               color: rgb(0, 0, 0),
             });
