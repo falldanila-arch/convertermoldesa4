@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Upload, Download, FileImage, FileText, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFConverter } from "@/lib/pdfConverter";
+import { PdfPreview } from "@/components/PdfPreview";
 
 interface FileConverterProps {
   title: string;
@@ -152,6 +153,8 @@ export const FileConverter = ({
             Baixar {convertedFileName}
           </Button>
         )}
+
+        <PdfPreview file={file} />
       </CardContent>
     </Card>
   );
