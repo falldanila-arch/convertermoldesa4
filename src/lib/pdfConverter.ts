@@ -43,21 +43,24 @@ export class PDFConverter {
             const scaleY = pageA4Height / quadrantHeight;
             const scale = Math.min(scaleX, scaleY);
             
-            // Calcular posição para centralizar o quadrante na página A4
-            const scaledWidth = width * scale;
-            const scaledHeight = height * scale;
-            const offsetX = (pageA4Width - scaledWidth) / 2;
-            const offsetY = (pageA4Height - scaledHeight) / 2;
+            // Calcular escala e posição para mostrar apenas o quadrante atual
+            const scaledQuadrantWidth = quadrantWidth * scale;
+            const scaledQuadrantHeight = quadrantHeight * scale;
+            
+            // Centralizar o quadrante na página A4
+            const offsetX = (pageA4Width - scaledQuadrantWidth) / 2;
+            const offsetY = (pageA4Height - scaledQuadrantHeight) / 2;
             
             // Posição do recorte (qual parte da página original mostrar)
-            const cropX = -col * quadrantWidth * scale;
-            const cropY = -(rows - 1 - row) * quadrantHeight * scale;
+            // Inverter a coordenada Y para PDF (origem no canto inferior esquerdo)
+            const cropX = -col * scaledQuadrantWidth;
+            const cropY = -(height * scale - (row + 1) * scaledQuadrantHeight);
             
             newPage.drawPage(embeddedPage, {
               x: offsetX + cropX,
               y: offsetY + cropY,
-              width: scaledWidth,
-              height: scaledHeight,
+              width: width * scale,
+              height: height * scale,
             });
             
             // Adicionar marcações de corte e informações

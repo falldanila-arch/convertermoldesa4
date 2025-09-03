@@ -8,7 +8,7 @@ export const ContactSection = () => {
   };
 
   const openWebsite = () => {
-    window.open('https://modelagemediversos.site', '_blank');
+    window.open('https://mercadolivre.com.br/loja/modelagem-e-diversos', '_blank');
   };
 
   return (
@@ -84,7 +84,7 @@ export const ContactSection = () => {
                 size="lg"
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
-                modelagemediversos.site
+                MercadoLivre - Modelagem e Diversos
               </Button>
             </CardContent>
           </Card>
