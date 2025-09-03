@@ -88,7 +88,7 @@ const Index = () => {
               © 2024 Molde Posters Digital. Desenvolvido com 💜 para costureiras e estilistas profissionais.
             </p>
             <p className="text-white/60 mt-2">
-              Visite: <a href="https://modelagemediversos.site" className="text-primary underline">modelagemediversos.site</a> • 
+              Visite: <a href="https://mercadolivre.com.br/loja/modelagem-e-diversos" className="text-primary underline">MercadoLivre - Modelagem e Diversos</a> • 
               WhatsApp: <a href="https://wa.me/5535998121698" className="text-primary underline">(35) 9 9812-1698</a>
             </p>
           </div>

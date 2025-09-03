@@ -60,7 +60,7 @@ export const HeroSection = () => {
             variant="outline" 
             size="lg"
             className="border-white text-white hover:bg-white hover:text-primary font-semibold px-8 py-4 text-lg"
-            onClick={() => window.open('https://modelagemediversos.site', '_blank')}
+            onClick={() => window.open('https://mercadolivre.com.br/loja/modelagem-e-diversos', '_blank')}
           >
             Ver Moldes Disponíveis
           </Button>
