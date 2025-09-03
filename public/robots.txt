@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://moldepostersdigital.lovable.app/sitemap.xml

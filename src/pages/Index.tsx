@@ -15,18 +15,19 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
-              Conversor Profissional
+              Converter Moldes em A4
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Transforme seus arquivos PDF em formato poster dividido em páginas A4 para impressão.
-              Perfeito para moldes de costura, pôsteres e projetos de sublimação em grande formato.
+              Transforme moldes em PDF grandes para impressão em A4 comum. Converta moldes CAD, 
+              Audaces em PDF e qualquer PDF grande para impressora comum dividido em páginas A4.
+              Perfeito para moldes de costura, modelagem e projetos profissionais.
             </p>
           </div>
 
           <div className="flex justify-center max-w-4xl mx-auto">
             <FileConverter
-              title="PDF para PDF Dividido em Poster"
-              description="Converta seu PDF em formato poster dividido em páginas A4 para moldes e posteres"
+              title="Converter Moldes em A4 - PDF Grande para A4"
+              description="Converta moldes em PDF, Audaces em PDF, moldes CAD para páginas A4 em impressora comum"
               fromFormat="PDF"
               toFormat="XPS"
               icon={<FileText className="h-6 w-6" />}
