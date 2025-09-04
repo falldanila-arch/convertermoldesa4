@@ -14,13 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string | null
+          id: string
+          status: string
+          stripe_session_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string | null
+          id?: string
+          status?: string
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string | null
+          id?: string
+          status?: string
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      vouchers: {
+        Row: {
+          code: string
+          created_at: string
+          expires_at: string
+          id: string
+          used_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          used_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          used_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      user_has_access: {
+        Args: { user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
