@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, Download, FileImage, FileText, Loader2 } from "lucide-react";
+import { Upload, Download, FileImage, FileText, Loader2, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { PDFConverter } from "@/lib/pdfConverter";
 import { PdfPreview } from "@/components/PdfPreview";
+import { AuthModal } from "@/components/AuthModal";
+import { PaymentModal } from "@/components/PaymentModal";
+import { useAuth } from "@/components/AuthProvider";
 
 interface FileConverterProps {
   title: string;
@@ -27,6 +30,10 @@ export const FileConverter = ({
   const [isConverting, setIsConverting] = useState(false);
   const [convertedFile, setConvertedFile] = useState<Blob | null>(null);
   const [convertedFileName, setConvertedFileName] = useState<string>("");
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  
+  const { user, hasAccess, checkAccess } = useAuth();
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -50,6 +57,19 @@ export const FileConverter = ({
   const handleConvert = async () => {
     if (!file) {
       toast.error("Por favor, selecione um arquivo primeiro!");
+      return;
+    }
+
+    // Verificar se usuário está logado
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+
+    // Verificar se tem acesso
+    await checkAccess();
+    if (!hasAccess) {
+      setShowPaymentModal(true);
       return;
     }
 
@@ -137,8 +157,13 @@ export const FileConverter = ({
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Convertendo...
             </>
-          ) : (
+          ) : user && hasAccess ? (
             `Converter para ${toFormat}`
+          ) : (
+            <>
+              <Lock className="mr-2 h-4 w-4" />
+              {!user ? "Fazer Login para Converter" : "Liberar Acesso - R$ 2,99"}
+            </>
           )}
         </Button>
 
@@ -155,6 +180,16 @@ export const FileConverter = ({
         )}
 
         <PdfPreview file={file} />
+        
+        <AuthModal 
+          open={showAuthModal} 
+          onOpenChange={setShowAuthModal} 
+        />
+        
+        <PaymentModal 
+          open={showPaymentModal} 
+          onOpenChange={setShowPaymentModal} 
+        />
       </CardContent>
     </Card>
   );

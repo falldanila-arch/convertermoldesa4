@@ -3,12 +3,24 @@ import { FileConverter } from "@/components/FileConverter";
 import { TutorialSection } from "@/components/TutorialSection";
 import { TipsSection } from "@/components/TipsSection";
 import { ContactSection } from "@/components/ContactSection";
+import { AccountStatus } from "@/components/AccountStatus";
+import { useAuth } from "@/components/AuthProvider";
 import { FileImage, FileText } from "lucide-react";
 
 const Index = () => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen">
       <HeroSection />
+      
+      {user && (
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4">
+            <AccountStatus />
+          </div>
+        </section>
+      )}
       
       {/* Converter Section */}
       <section id="converter" className="py-20 bg-background">
