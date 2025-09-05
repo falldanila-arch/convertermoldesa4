@@ -38,9 +38,13 @@ serve(async (req) => {
     }
 
     // Verificar se tem acesso
-    const { data: hasAccess } = await supabaseClient.rpc('user_has_access', {
+    console.log("Verificando acesso para usuário:", user.id);
+    
+    const { data: hasAccess, error: accessError } = await supabaseClient.rpc('user_has_access', {
       user_id: user.id
     });
+
+    console.log("Resultado da verificação de acesso:", hasAccess, "Erro:", accessError);
 
     return new Response(JSON.stringify({ hasAccess: !!hasAccess }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
