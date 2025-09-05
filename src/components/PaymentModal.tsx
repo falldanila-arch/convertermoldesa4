@@ -53,12 +53,16 @@ export const PaymentModal = ({ open, onOpenChange }: PaymentModalProps) => {
       if (error) throw error;
       
       toast.success("Voucher aplicado com sucesso! Acesso liberado!");
-      await checkAccess();
-      onOpenChange(false);
-      setVoucherCode("");
+      
+      // Aguardar um pouco e verificar o acesso novamente
+      setTimeout(async () => {
+        await checkAccess();
+        onOpenChange(false);
+        setVoucherCode("");
+      }, 500);
+      
     } catch (error: any) {
       toast.error(error.message || "Erro ao usar voucher");
-    } finally {
       setIsVoucherLoading(false);
     }
   };

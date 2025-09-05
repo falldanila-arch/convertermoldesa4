@@ -25,8 +25,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkAccess = async () => {
     try {
-      const { data } = await supabase.functions.invoke('check-access');
-      setHasAccess(data?.hasAccess || false);
+      const { data, error } = await supabase.functions.invoke('check-access');
+      if (error) throw error;
+      const hasAccessValue = data?.hasAccess || false;
+      setHasAccess(hasAccessValue);
+      console.log("Status de acesso atualizado:", hasAccessValue);
     } catch (error) {
       console.error("Erro ao verificar acesso:", error);
       setHasAccess(false);
