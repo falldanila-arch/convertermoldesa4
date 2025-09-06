@@ -27,21 +27,36 @@ serve(async (req) => {
     
     if (!user) throw new Error("Usuário não autenticado");
 
-    // Verificar se voucher existe e é válido
+    // Verificar se voucher existe e é válido (incluindo vouchers vitalícios multiusuário)
     const { data: voucher, error: voucherError } = await supabaseClient
       .from("vouchers")
       .select("*")
       .eq("code", code)
-      .is("user_id", null)
-      .is("used_at", null)
       .gt("expires_at", new Date().toISOString())
       .single();
 
     if (voucherError || !voucher) {
-      throw new Error("Voucher inválido, já usado ou expirado");
+      throw new Error("Voucher inválido ou expirado");
     }
 
-    // Usar voucher
+    // Se é um voucher vitalício multiusuário (user_id = null, used_at = null)
+    // não modificamos ele, apenas retornamos sucesso
+    if (voucher.user_id === null && voucher.used_at === null) {
+      return new Response(JSON.stringify({ 
+        success: true,
+        message: "Voucher vitalício aplicado com sucesso! Acesso liberado permanentemente."
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
+
+    // Se é um voucher normal (não vitalício), verifica se já foi usado
+    if (voucher.user_id !== null || voucher.used_at !== null) {
+      throw new Error("Voucher já foi utilizado");
+    }
+
+    // Usar voucher normal
     const { error: updateError } = await supabaseClient
       .from("vouchers")
       .update({
@@ -52,7 +67,10 @@ serve(async (req) => {
 
     if (updateError) throw updateError;
 
-    return new Response(JSON.stringify({ success: true }), {
+    return new Response(JSON.stringify({ 
+      success: true,
+      message: "Voucher aplicado com sucesso!"
+    }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });

@@ -7,6 +7,7 @@ import { PDFConverter } from "@/lib/pdfConverter";
 import { PdfPreview } from "@/components/PdfPreview";
 import { AuthModal } from "@/components/AuthModal";
 import { PaymentModal } from "@/components/PaymentModal";
+import { AccessTutorial } from "@/components/AccessTutorial";
 import { useAuth } from "@/components/AuthProvider";
 
 interface FileConverterProps {
@@ -132,6 +133,10 @@ export const FileConverter = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
+        <AccessTutorial 
+          onShowAuth={() => setShowAuthModal(true)}
+          onShowPayment={() => setShowPaymentModal(true)}
+        />
         <div className="border-2 border-dashed border-muted rounded-lg p-8 text-center hover:border-primary transition-colors">
           <input
             type="file"
