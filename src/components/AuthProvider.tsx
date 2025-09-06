@@ -30,6 +30,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const hasAccessValue = data?.hasAccess || false;
       setHasAccess(hasAccessValue);
       console.log("Status de acesso atualizado:", hasAccessValue);
+      
+      // Forçar re-render dos componentes
+      window.dispatchEvent(new CustomEvent('accessUpdated', { detail: hasAccessValue }));
     } catch (error) {
       console.error("Erro ao verificar acesso:", error);
       setHasAccess(false);

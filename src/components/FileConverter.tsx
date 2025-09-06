@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, Download, FileImage, FileText, Loader2, Lock } from "lucide-react";
@@ -34,6 +34,23 @@ export const FileConverter = ({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   
   const { user, hasAccess, checkAccess } = useAuth();
+
+  // Forçar verificação de acesso quando o componente monta
+  useEffect(() => {
+    if (user) {
+      checkAccess();
+    }
+  }, [user, checkAccess]);
+
+  // Escutar atualizações de acesso
+  useEffect(() => {
+    const handleAccessUpdate = (event: CustomEvent) => {
+      console.log("Acesso atualizado no FileConverter:", event.detail);
+    };
+
+    window.addEventListener('accessUpdated', handleAccessUpdate as EventListener);
+    return () => window.removeEventListener('accessUpdated', handleAccessUpdate as EventListener);
+  }, []);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
