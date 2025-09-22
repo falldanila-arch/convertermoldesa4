@@ -3,12 +3,24 @@ import { FileConverter } from "@/components/FileConverter";
 import { TutorialSection } from "@/components/TutorialSection";
 import { TipsSection } from "@/components/TipsSection";
 import { ContactSection } from "@/components/ContactSection";
+import { AccountStatus } from "@/components/AccountStatus";
+import { useAuth } from "@/components/AuthProvider";
 import { FileImage, FileText } from "lucide-react";
 
 const Index = () => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen">
       <HeroSection />
+      
+      {user && (
+        <section className="py-8 bg-background">
+          <div className="container mx-auto px-4">
+            <AccountStatus />
+          </div>
+        </section>
+      )}
       
       {/* Converter Section */}
       <section id="converter" className="py-20 bg-background">
@@ -22,6 +34,23 @@ const Index = () => {
               Audaces em PDF e qualquer PDF grande para impressora comum dividido em páginas A4.
               Perfeito para moldes de costura, modelagem e projetos profissionais.
             </p>
+
+            {/* Pricing and Access Info */}
+            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6 mb-8 max-w-2xl mx-auto border border-primary/20">
+              <div className="text-center">
+                <p className="text-lg font-semibold text-primary mb-2">💰 Acesso Completo por apenas</p>
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  <span className="text-3xl font-bold text-primary">R$ 2,99</span>
+                  <span className="text-sm text-muted-foreground">pagamento único</span>
+                </div>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-3">
+                  <p className="text-sm font-medium text-yellow-800">
+                    🎫 <strong>VOUCHER GRATUITO:</strong> Use o código <span className="bg-yellow-200 px-2 py-1 rounded font-mono">GRATIS2025</span> e tenha acesso vitalício!
+                  </p>
+                </div>
+                <p className="text-xs text-muted-foreground">Faça login e escolha: pagar ou usar voucher gratuito</p>
+              </div>
+            </div>
           </div>
 
           <div className="flex justify-center max-w-4xl mx-auto">
