@@ -41,22 +41,10 @@ export const HeroSection = () => {
           </span>
         </h1>
 
-        <p className="text-xl md:text-2xl mb-6 max-w-3xl mx-auto leading-relaxed text-white/90">
+        <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed text-white/90">
           Converta moldes em PDF, Audaces em PDF e moldes CAD para páginas A4. 
           Transforme qualquer PDF grande para impressão em impressora comum com qualidade profissional.
         </p>
-
-        {/* Pricing Banner */}
-        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-8 max-w-2xl mx-auto border border-white/30">
-          <div className="text-center">
-            <p className="text-lg text-white/80 mb-2">Acesso completo</p>
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="text-3xl md:text-4xl font-bold text-white">por apenas</span>
-              <span className="text-4xl md:text-5xl font-bold text-yellow-300">R$ 2,99</span>
-            </div>
-            <p className="text-sm text-white/70">ou use o voucher <strong className="text-yellow-300">GRATIS2025</strong> gratuitamente!</p>
-          </div>
-        </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <Button 
