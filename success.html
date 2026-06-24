@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pagamento concluído — Seu download</title>
+</head>
+<body>
+  <h1>Pagamento concluído</h1>
+  <p id="status">Aguarde enquanto verificamos o pagamento e preparamos o download...</p>
+
+  <script>
+    (function () {
+      // Substitua pelo domínio do seu servidor
+      const API_BASE = "https://YOUR-SERVER-DOMAIN.com";
+
+      const params = new URLSearchParams(location.search);
+      const sessionId = params.get('session_id');
+
+      async function fetchDownload() {
+        if (!sessionId) {
+          document.getElementById('status').textContent = 'Session ID ausente.';
+          return;
+        }
+        try {
+          const res = await fetch(`${API_BASE}/get-download?session_id=${encodeURIComponent(sessionId)}`);
+          if (!res.ok) {
+            const txt = await res.text();
+            throw new Error(txt || 'Erro desconhecido');
+          }
+          const data = await res.json();
+          if (data.downloadUrl) {
+            document.getElementById('status').textContent = 'Download iniciando...';
+            // redirect to the download URL (server returns a temporary URL or streams file)
+            window.location.href = data.downloadUrl;
+          } else if (data.error) {
+            document.getElementById('status').textContent = 'Erro: ' + data.error;
+          } else {
+            document.getElementById('status').textContent = 'Download indisponível.';
+          }
+        } catch (err) {
+          console.error(err);
+          document.getElementById('status').textContent = 'Erro: ' + (err.message || err);
+        }
+      }
+
+      fetchDownload();
+    })();
+  </script>
+</body>
+</html>
