@@ -1,0 +1,68 @@
+# Salve como apply-gh-pages-workflow.sh e rode: bash apply-gh-pages-workflow.sh
+set -e
+
+# Verifica se está num repositório git
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "Erro: rode este script a partir da raiz do repositório git."
+  exit 1
+fi
+
+# Verifica working tree limpa
+if ! git diff-index --quiet HEAD --; then
+  echo "Erro: working tree não está limpa. Faça commit ou stash das suas alterações antes."
+  git status --porcelain
+  exit 1
+fi
+
+BRANCH="ci/gh-pages-deploy"
+echo "Criando branch $BRANCH..."
+git checkout -b "$BRANCH"
+
+mkdir -p .github/workflows
+
+cat > .github/workflows/deploy-gh-pages.yml <<'YAML'
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          keep_files: false
+YAML
+
+git add .github/workflows/deploy-gh-pages.yml
+git commit -m "ci: add GitHub Actions workflow to build and deploy to GitHub Pages"
+git push -u origin "$BRANCH"
+
+echo
+echo "Concluído. Abra um Pull Request da branch '$BRANCH' para 'main' no GitHub e faça merge."
